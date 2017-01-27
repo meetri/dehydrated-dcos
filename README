@@ -1,1 +1,16 @@
-Uses Dehydrated + route53 AWS plugin for dns based domain validation via letsencrypt
+Generate LetsEncrypt SSL Certificates for any domain you own.
+Requires domains to be managed via Amazon's Route53
+
+Usage:
+- create IAM account with access to Amazon's Route53 API
+- create boto.cfg in /etc/boto.cfg on your host using the aws key & secret
+- when launching your container add the /etc/boto.cfg to your container via volume mount
+- provide a list of domains to register delimited by semicolon.
+
+Deployment Example:
+docker run --name dehydrated-letsencrypt -v /etc/boto.cfg:/etc/boto.cfg \
+   -v /certs:/certs \
+   -e DOMAINS="mydomain.com www.mydomain.com;myotherdomain.com beta.myotherdomain.com"
+   -tid meetri/dehydrated-dcos
+   
+My goal with this project is to have a fully automated system for signing certificates and distributing them where needed to services inside my cluster. Stay tuned for more updates
