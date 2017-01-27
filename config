@@ -1,0 +1,5 @@
+CA="https://acme-staging.api.letsencrypt.org/directory"
+CHALLENGETYPE="dns-01"
+BASEDIR=/etc/dehydrated
+CERTDIR=/certs
+HOOK=/etc/dehydrated/hooks/route53.py

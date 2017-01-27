@@ -1,0 +1,16 @@
+#!/bin/bash
+
+printf "building domain list for letsencrypt to generate ssl certs"
+printf "${DOMAINS//;/\\n}" > /etc/dehydrated/domains.txt
+cat /etc/dehydrated/domains.txt
+
+while true
+do
+    /opt/dehydrated/dehydrated -c
+
+    printf "Certs Generated: " $(ls -al /certs)
+    # package certs for distribution... for
+
+    echo "Going to sleep. night night"
+    sleep 24h
+done
