@@ -13,4 +13,7 @@ docker run --name dehydrated-letsencrypt -v /etc/boto.cfg:/etc/boto.cfg \
    -e DOMAINS="mydomain.com www.mydomain.com;myotherdomain.com beta.myotherdomain.com"
    -tid meetri/dehydrated-dcos
    
-My goal with this project is to have a fully automated system for signing certificates and distributing them where needed to services inside my cluster. Stay tuned for more updates
+My goal with this project is to have a fully automated system for signing certificates and distributing 
+them where needed to services inside my cluster. 
+
+Stay tuned for more updates
