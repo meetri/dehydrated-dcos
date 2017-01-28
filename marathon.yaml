@@ -1,0 +1,42 @@
+{
+  "id": "/letsencrypt",
+  "instances": 1,
+  "cpus": 0.25,
+  "mem": 128,
+  "disk": 0,
+  "gpus": 0,
+  "requirePorts": false,
+  "container": {
+    "type": "DOCKER",    
+    "docker": {
+      "image": "meetri/dehydrated-dcos:latest",
+      "network": "USER",
+      "privileged": false,
+      "forcePullImage": true
+    },
+    "volumes": [
+      {
+        "containerPath": "/certs",
+        "hostPath": "/opt/data/certs",
+        "mode": "RW"
+      },
+      {
+        "containerPath": "/etc/boto.cfg",
+        "hostPath": "/etc/boto.cfg",
+        "mode": "RO"
+      }
+    ]
+  },
+  "backoffFactor": 1.5,
+  "backoffSeconds": 5,
+  "maxLaunchDelaySeconds": 3600,
+  "constraints": [
+    ["hostname", "CLUSTER", "10.20.50.100"]
+  ],
+  "acceptedResourceRoles": [
+    "slave_public"
+  ],
+  "env": {
+      "DOMAINS":"mydomain.com beta.mydomain.com;mydomain2.com www.mydomain2.com beta.mydomain2.com"
+  }
+}
