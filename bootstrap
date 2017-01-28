@@ -1,7 +1,13 @@
 #!/bin/bash
 
-printf "building domain list for letsencrypt to generate ssl certs"
-printf "${DOMAINS//;/\\n}" > /etc/dehydrated/domains.txt
+CERT_ROOT=/certs
+
+if [ ! -f /etc/dehydrated/domains ]; then
+    printf "building domain list for letsencrypt from environment\n"
+    printf "${DOMAINS//;/\\n}" > /etc/dehydrated/domains.txt
+fi
+
+printf "letsencrypt:\n"
 cat /etc/dehydrated/domains.txt
 
 while true
@@ -9,8 +15,19 @@ do
     /opt/dehydrated/dehydrated -c
 
     printf "Certs Generated: " $(ls -al /certs)
-    # package certs for distribution... for
 
-    echo "Going to sleep. night night"
+    # package certs for distribution... for
+    for d in $CERT_ROOT/*; do
+        if [[ -d $d ]]; then
+          dname=$(basename $d)
+          cat $d/fullchain.pem $d/privkey.pem > $CERT_ROOT/$dname.pem
+        fi
+    done
+
+    tar -cvzf $CERT_ROOT/certs.tgz $CERT_ROOT/*.pem
+    rm $CERT_ROOT/*.pem
+    printf "certificate package generated at $CERT_ROOT/certs.tgz"
+
+    printf "Going to sleep. night night"
     sleep 24h
 done
